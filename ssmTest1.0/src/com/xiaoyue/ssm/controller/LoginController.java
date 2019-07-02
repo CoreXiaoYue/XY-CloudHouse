@@ -23,7 +23,7 @@ public class LoginController {
     @Autowired
     UserService userService;
     //添加学生预页面。
-
+    //添加学生预页面。
     @RequestMapping("/loginPage")
     public String loginPage(Model model) {
     	User user = new User();
