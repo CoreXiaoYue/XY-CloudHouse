@@ -16,11 +16,11 @@ import java.util.TreeMap;
 public class FindCharNumberInFileUtils {
 
 	
-	/**找出文件中每个字符出现的次数并在另一个文件中输出
-	 * @param findFilePath 要查找的文件抽象路径
-	 * @param outFilePath 要将查找结果保存到指定文件的抽象路径
-	 * @throws FileNotFoundException 文件找不到异常
-	 * @throws IOException 文件流异常
+	/**找出文件中每个字符出现的次数并在另一个文件中输出。
+	 * @param findFilePath 要查找的文件抽象路径。
+	 * @param outFilePath 要将查找结果保存到指定文件的抽象路径。
+	 * @throws FileNotFoundException 文件找不到异常。
+	 * @throws IOException 文件流异常。
 	 */
 	public static void findCharNumberInFileUtils(String findFilePath,String outFilePath) throws FileNotFoundException, IOException {
 		BufferedReader bfr=new BufferedReader(new FileReader(findFilePath));
