@@ -27,7 +27,7 @@ public class User extends Parent{
 	public String toString() {
 		return "User [name=" + name + ", age=" + age + "]";
 	}
-	//sdfdddddddddddddddddddddddddddddddddddddddddddddddddddddddddÉ½¶«·Ö¹«Ë¾·Ö¹«Ë¾·Ö¹Ü¹©Ó¦ºÍ¼Û¸ñ·ÇÒøĞĞ»ú¹¹»·¾³
+	//è®¡ç®—hashcodeå€¼
 	@Override
 	public int hashCode() {
 		final int prime = 31;
