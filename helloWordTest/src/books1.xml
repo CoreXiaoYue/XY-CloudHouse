@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans>
+  <class name="book" table="tb_book">
+    <property name="id" type="java.lang.Integer"/>
+    <property name="name" type="java.lang.String"/>
+    <property name="author" type="java.lang.String"/>
+    <property name="price" type="java.lang.Double"/>
+  </class>
+</beans>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE studnets [
+  <!ELEMENT studnet (id,name,age,brithday)>
+  <!ELEMENT id      (#PCDATA)>
+  <!ELEMENT name    (#PCDATA)>
+  <!ELEMENT age      (#PCDATA)>
+  <!ELEMENT brithday    (#PCDATA)>
+  <!ATTLIST student name CDATA #REQUIRED>
+  <!ATTLIST student table CDATA #REQUIRED>
+]>
+<studnts>
+	<student name="studnet" table="tb_student">
+		<id>1</id>
+		<name>小岳</name>
+		<age>25</age>
+		<brithday>1993-11-13</brithday>
+	</student>
+	<student name="studnet" table="tb_student">
+		<id>1</id>
+		<name>小岳</name>
+		<age>25</age>
+		<brithday>1993-11-13</brithday>
+	</student>
+
+</studnts>

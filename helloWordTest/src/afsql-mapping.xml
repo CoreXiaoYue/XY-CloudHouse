@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 内部的 DOCTYPE 声明 -->
+
+  <!DOCTYPE afsql-mapping [
+  <!ELEMENT afsql-mapping (class+)>
+  <!ELEMENT class (property+)>
+  <!ATTLIST class name CDATA #REQUIRED>
+  <!ATTLIST class table CDATA #REQUIRED>
+  <!ATTLIST property name CDATA #REQUIRED>
+  <!ATTLIST property type CDATA #REQUIRED>
+  <!ATTLIST property generated CDATA "">
+]>
+
+<!-- 外部文档声明 -->
+<!--   <!DOCTYPE class SYSTEM "sql-mapping.dtd">   -->
+<afsql-mapping>
+
+	<!-- 如果使用注解方式，就不要再这里mapping -->
+	 
+    <class name="my.Student" table="student" >    
+        <property name="id" type="java.lang.Integer" generated="false" />
+        <property name="name" type="java.lang.String" />        
+        <property name="sex" type="java.lang.Boolean" />        
+        <property name="phone" type="java.lang.String" />        
+        <property name="birthday" type="java.util.Date" />        
+    </class>
+    
+  
+
+    
+</afsql-mapping>

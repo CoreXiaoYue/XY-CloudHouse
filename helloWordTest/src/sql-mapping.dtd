@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <!ELEMENT afsql-mapping (class+)>
+  <!ELEMENT class (property+)>
+  <!ATTLIST class name CDATA #REQUIRED>
+  <!ATTLIST class table CDATA #REQUIRED>
+  <!ATTLIST property name CDATA #REQUIRED>
+  <!ATTLIST property type CDATA #REQUIRED>
+  <!ATTLIST property generated CDATA "false">

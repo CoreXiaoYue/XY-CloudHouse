@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaoyue.ssm.mapper.StudentMapper">
+	<resultMap type="com.xiaoyue.ssm.pojo.Student" id="selectResultMap">
+		<id column="id" property="id"/>
+		<result column="name" property="name"/>
+		<result column="gender" property="gender"/>
+		<result column="department" property="department"/>
+		<result column="admission" property="admission" javaType="java.util.Date" />
+		<result column="professional" property="professional"/>
+	</resultMap>
+
+	<sql id="studentSql" >
+		 (name,gender,department,admission,professional)
+	</sql>
+	
+	<select id="selectById" parameterType="Integer" resultType="com.xiaoyue.ssm.pojo.Student">
+		select*from student where id=#{id}
+	</select>
+	
+	<select id="selectAll" resultType="com.xiaoyue.ssm.pojo.Student" resultMap="selectResultMap">
+		select * from student
+	</select>
+	
+	<insert id="insertStudent" parameterType="com.xiaoyue.ssm.pojo.Student">
+		insert into student(name,gender,department,admission,professional) values(#{name},#{gender},#{department},#{admission},#{professional})
+	</insert>
+	
+	<delete id="deleteStudentById" parameterType="com.xiaoyue.ssm.pojo.Student" >
+		delete from student where id=#{id}
+	</delete>
+	
+	 <update id="updateStudentById" parameterType="com.xiaoyue.ssm.pojo.Student">
+		update student 
+		<set>
+			<if test="name!=null">name=#{name},</if>
+			<if test="gender!=null">gender=#{gender},</if>
+			<if test="department!=null">department=#{department},</if>
+			<if test="admission!=null">admission=#{admission},</if>
+			<if test="professional!=null">professional=#{professional}</if>
+		</set>
+		where id=#{id}
+	</update> 
+	
+	 <update id="updateStudentByIdMap" parameterType="hashmap">
+		update student 
+		<set>
+			<if test="student.name!=null">name=#{student.name},</if>
+			<if test="student.gender!=null">gender=#{student.gender},</if>
+			<if test="student.department!=null">department=#{student.department},</if>
+			<if test="student.admission!=null">admission=#{student.admission},</if>
+			<if test="student.professional!=null">professional=#{student.professional}</if>
+		</set>
+		where id=#{student.id}
+	</update> 
+	
+	
+	<!--  <update id="updateStudentById" parameterType="com.xiaoyue.ssm.pojo.Student">
+		update student set name=#{name},gender=#{gender},department=#{department},admission=#{admission},professional=#{professional} where id=#{id}
+	</update> --> 
+</mapper>
