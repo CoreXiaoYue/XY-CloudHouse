@@ -1,4 +1,4 @@
-package com.xiaoyue.io.reader;
+package com.xiaoyue.ssm;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
