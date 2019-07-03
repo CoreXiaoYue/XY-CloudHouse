@@ -12,8 +12,8 @@
 	<sql id="studentSql" >
 		 (tbl_username,tbl_password )
 	</sql>
-	<select id="selectUser" parameterType="hashMap" resultType="Integer">
-		select name=#{user.name},password=#{user.password} from user  
+	<select id="selectUser" parameterType="hashMap" resultType="User">
+		select username=#{user.name},password=#{user.password} from user  
 	</select>
 	
 	

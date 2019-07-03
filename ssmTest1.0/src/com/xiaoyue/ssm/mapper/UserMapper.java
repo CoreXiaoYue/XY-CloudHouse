@@ -6,5 +6,5 @@ import com.xiaoyue.ssm.pojo.User;
 
 
 public interface UserMapper {
-    Integer selectUser(HashMap<String , Object> map) ; 
+    User selectUser(HashMap<String , Object> map) ; 
 }

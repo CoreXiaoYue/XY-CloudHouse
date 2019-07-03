@@ -30,8 +30,8 @@
   	  <mybatis:scan base-package="com.xiaoyue.ssm.mapper"/>  
 	  	
 	  	<!-- 通用配置 -->
-	    <mvc:annotation-driven conversion-service="conversionService"/>
-	    <!-- 配置数据类型转换器 -->
+	     <mvc:annotation-driven conversion-service="conversionService"/>
+	 <!--    配置数据类型转换器 -->
 	    <bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
 	    	<property name="converters">
 	    		<list>
@@ -39,7 +39,7 @@
 	    			<bean class="com.xiaoyue.ssm.converters.DateFormatConverter"></bean>
 	    		</list>
 	    	</property>
-	    </bean>
+	    </bean> 
 	    
 	 <!-- 配置拦截器 -->
 		<mvc:interceptors>

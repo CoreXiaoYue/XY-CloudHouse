@@ -11,11 +11,11 @@ import com.xiaoyue.ssm.pojo.User;
 public class UserMapperImpl extends SqlSessionDaoSupport implements UserMapper{
 
     @Override
-    public Integer selectUser(HashMap<String, Object> map) {
+    public User selectUser(HashMap<String, Object> map) {
 	SqlSession sqlSession = this.getSqlSession();
 	UserMapper mapper = sqlSession.getMapper(UserMapper.class);
-	 Integer count = mapper.selectUser(map);
-	return count;
+	 User user = mapper.selectUser(map);
+	return user;
     }
 
    

@@ -7,5 +7,5 @@ import com.xiaoyue.ssm.pojo.User;
 public interface UserService {
     User findUser(User user);
     void registerUser(User user);
-    Integer selectUser(HashMap<String , Object> map);
+    User selectUser(HashMap<String , Object> map);
 }

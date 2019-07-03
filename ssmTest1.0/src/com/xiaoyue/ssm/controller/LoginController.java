@@ -16,22 +16,24 @@ import com.xiaoyue.ssm.service.UserService;
 public class LoginController {
     @Autowired
     UserService userService;
+    
     //添加学生预页面。
     @RequestMapping("/loginPage")
     public String loginPage(Model model) {
 	model.addAttribute("user", new User());
 	return "loginPage";
     }
+    
     @RequestMapping("/login")
     public String login(Model model,User user,HttpSession session) {
 	System.out.println(user.toString());
 	HashMap< String , Object> map=new HashMap<String, Object>();
 	map.put("user", user);
-	 Integer count = userService.selectUser(map);
-	if(count<1) {
+	 User reuser = userService.selectUser(map);
+	if(reuser != null) {
 	    return "loginPage";
 	}
-	session.setAttribute("user", user);
+	session.setAttribute("user", reuser);
 	return "redirect:/listStudent";
     }
 }

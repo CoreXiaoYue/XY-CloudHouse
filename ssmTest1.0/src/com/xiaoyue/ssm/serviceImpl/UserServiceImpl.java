@@ -23,9 +23,9 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public Integer selectUser(HashMap<String , Object> map) {
-	Integer count = userMapper.selectUser(map);
-	return count;
+    public User selectUser(HashMap<String , Object> map) {
+	User user = userMapper.selectUser(map);
+	return user;
     }
 
 }
