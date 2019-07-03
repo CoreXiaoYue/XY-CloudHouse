@@ -1,0 +1,27 @@
+#查看所有数据库
+SHOW DATABASES;
+#使用数据库
+USE jpa;
+#查看所有表
+SHOW TABLES;
+#查看所有表
+DESC USER;
+#创建一个与已有表结构和数据相同的表
+CREATE TABLE user1 AS SELECT * FROM USER;
+#向表增加一列
+ALTER TABLE user1 ADD(email VARCHAR(20) DEFAULT 'xxxxxx@xx.xxx');
+#改变表的某列的定义
+ALTER TABLE user1 MODIFY email VARCHAR(30);
+#查看表结构
+DESC user1;
+#删除数据表的列
+ALTER TABLE user1 DROP email;
+#修改表名
+ALTER TABLE user1 RENAME TO user2;
+#增加列
+ALTER TABLE user2 ADD(email VARCHAR(20) DEFAULT 'xxxx@xx.xxx');
+#改变列名
+ALTER TABLE user2 CHANGE email u_email VARCHAR(20);
+#删除表 DROP TABLE 'tableName'
+#删除表的全部记录 truncate
+TRUNCATE user2;
