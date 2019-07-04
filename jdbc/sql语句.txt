@@ -1,0 +1,149 @@
+#查看所有数据库
+SHOW DATABASES;
+#使用数据库
+USE jpa;
+#查看所有表
+SHOW TABLES;
+#查看所有表
+DESC USER;
+#创建一个与已有表结构和数据相同的表
+CREATE TABLE user1 AS SELECT * FROM USER;
+#向表增加一列
+ALTER TABLE user1 ADD(email VARCHAR(20) DEFAULT 'xxxxxx@xx.xxx');
+#改变表的某列的定义
+ALTER TABLE user1 MODIFY email VARCHAR(30);
+#查看表结构
+DESC user1;
+#删除数据表的列
+ALTER TABLE user1 DROP email;
+#修改表名
+ALTER TABLE user1 RENAME TO user2;
+#增加列
+ALTER TABLE user2 ADD(email VARCHAR(20) DEFAULT 'xxxx@xx.xxx');
+#改变列名
+ALTER TABLE user2 CHANGE email u_email VARCHAR(20);
+#删除表 DROP TABLE 'tableName'
+#删除表的全部记录 truncate
+TRUNCATE user2;
+ALTER TABLE user1 
+  ADD (
+    email VARCHAR (20) DEFAULT 'xxx@qq.xxx' NOT NULL
+  ) ;
+
+#id为主键，能够查询出一条记录。
+SELECT 
+  * 
+FROM
+  USER 
+WHERE id = 2 ;
+
+#创建表，指定约束
+CREATE TABLE user2 (
+  u_id INT NOT NULL,
+  u_name VARCHAR (20) NOT NULL,
+  u_password VARCHAR (20) NOT NULL,
+  CONSTRAINT user2_pk PRIMARY KEY (u_id)
+) ;
+
+#删除主键约束
+ALTER TABLE user2 
+  DROP PRIMARY KEY ;
+
+#使用添加列添加主键
+ALTER TABLE user2 
+  ADD PRIMARY KEY (u_id, u_name) ;
+
+#使用列定义添加主键
+ALTER TABLE user2 
+  MODIFY u_id INT PRIMARY KEY ;
+
+#将列设置自增
+ALTER TABLE user2 
+  MODIFY u_id INT AUTO_INCREMENT ;
+
+`user2` #增加外键
+ALTER TABLE user2 
+  ADD FOREIGN KEY (u_id) REFERENCES user1 (id) ;
+
+#外键查询
+SELECT 
+  * 
+FROM
+  user2 u2,
+  user1 u1 
+WHERE u2.`u_id` = u1.`id` ;
+
+#为name创建索引
+CREATE INDEX user2_name_idx 
+ON user1 (NAME) ;
+
+#使用数据库
+USE jpa ;
+
+#删除索引
+DROP INDEX user2_name_idx 
+ON user1 ;
+
+#查询出id在2-8之间的记录
+SELECT 
+  * 
+FROM
+  user1 
+WHERE id BETWEEN 2 
+  AND 8 ;
+
+#查询id=1和7的记录
+SELECT 
+  * 
+FROM
+  user1 
+WHERE id IN (2, 7) ;
+
+#字段查询
+SELECT 
+  u_name,
+  u_password 
+FROM
+  user2 
+WHERE u_name = 45 
+  AND u_password = 45 ;
+
+#排序查询
+SELECT 
+  * 
+FROM
+  USER 
+WHERE id BETWEEN 2 
+  AND 8 
+ORDER BY id DESC ;
+
+#左连接查询
+SELECT 
+  u.`id`,
+  u1.`id` 
+FROM
+  USER u 
+  LEFT JOIN user1 u1 
+    ON u.`name` = u1.`name` ;
+
+
+#创建学生表
+CREATE TABLE teacher
+(
+	t_id INT PRIMARY KEY ,
+	t_name VARCHAR(20) 
+)
+#将id设置为自增
+ALTER TABLE teacher MODIFY t_id INT AUTO_INCREMENT;
+#插入记录
+INSERT INTO teacher(t_name) VALUES('张老师');
+INSERT INTO teacher(t_name) VALUES('杨老师'),('孙老师');
+#添加列
+ALTER TABLE student ADD(t_id INT );
+#添加外键
+ALTER TABLE student ADD FOREIGN KEY(t_id ) REFERENCES teacher (t_id); 
+#子查询
+SELECT * FROM student WHERE t_id <ANY(SELECT t_id FROM teacher WHERE t_id=2);
+
+#子查询
+SELECT  * FROM user1 u1 WHERE u1.`id` = ANY (SELECT  u.`id`  FROM  USER u) ;
