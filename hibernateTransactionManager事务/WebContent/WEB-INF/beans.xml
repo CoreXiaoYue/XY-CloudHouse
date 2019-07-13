@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd">
+	<!-- autowried自动装配 -->
+	<!-- 1.添加 Spring 上下文和<context:annotation-config />在bean配置文件中。 -->
+	<context:annotation-config/>
+	<!-- 2.直接在bean配置文件包含“AutowiredAnnotationBeanPostProcessor”。 -->
+	<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
+	
+	<!-- 使用注解自动装配@service,@Repository，开启自动扫描包， -->
+	<context:component-scan base-package="com.xiaoyue.struts2.*"></context:component-scan>
+	
+	
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+			p:driverClassName="com.mysql.jdbc.Driver"
+			p:url="jdbc:mysql://localhost:3306/ssh_1"
+			p:username="root"
+			p:password="a1b2c3d4"/>
+		
+	
+<!-- ======================================================================= -->
+<!-- =============== -->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+		<!-- 加载hibernate配置文件 ，尽量写在hibernate.cfg.xml文件里，有利于后期查阅spring配置文件，-->
+		<!-- <property name="configLocation" value="classpath:hibernate.cfg.xml"/> -->
+		
+		<!-- 可以将hibernate的配置文件设置在spring文件里 -->
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">true</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop>
+			</props>
+		</property>
+		<property name="mappingLocations" value="classpath:*.hbm.xml"></property>
+	</bean>
+<!-- =============== -->
+<!--====================================================================  -->
+<!-- =============== -->
+	<!--    <bean id="dataSourceTransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>   --> 
+	
+	
+	  <bean id="transactionManager" 
+		class="org.springframework.orm.hibernate5.HibernateTransactionManager"
+		p:sessionFactory-ref="sessionFactory"/> 
+
+	<!-- <tx:annotation-driven transaction-manager="transactionManager"/>   -->
+	
+
+	<!-- 配置事务增强处理Bean,指定事务管理器 -->
+	<tx:advice id="txAdvice" 
+		transaction-manager="transactionManager">
+		<!-- 用于配置详细的事务定义 -->
+		<tx:attributes>
+			<!-- 所有以'get'开头的方法是read-only的 -->
+			<tx:method name="select*" read-only="true" propagation="REQUIRED" timeout="5" />
+			<tx:method name="update*" propagation="REQUIRED"/>
+			<tx:method name="test*" propagation="REQUIRED"/>
+			<tx:method name="save*"  />
+			<!-- 其他方法使用默认的事务设置，指定超时时长为5秒 -->
+			<!-- <tx:method name="*" isolation="DEFAULT"
+				propagation="REQUIRED" timeout="5"/> -->
+		</tx:attributes>
+	</tx:advice>
+	<!-- AOP配置的元素 -->
+	<aop:config>
+		<!-- 配置一个切入点 -->
+		<aop:pointcut id="myPointcut" expression="execution(* com.xiaoyue.struts2.service.*.*(..))"/>
+		<!-- 指定在myPointcut切入点应用txAdvice事务增强处理 -->
+		<aop:advisor advice-ref="txAdvice" 
+			pointcut-ref="myPointcut"/>
+	</aop:config>
+		
+		
+	<bean id="bookDao" class="com.xiaoyue.struts2.Dao.BookDao" 
+		p:sessionFactory-ref="sessionFactory"/>
+	
+	<bean id="book" class="com.xiaoyue.struts2.bean.Book"
+		p:name="java"
+	/>
+	
+	<bean id="bookService" class="com.xiaoyue.struts2.service.BookService"></bean>
+	
+	<bean id="person" class="com.xiaoyue.struts2.bean.Person"/></beans>
