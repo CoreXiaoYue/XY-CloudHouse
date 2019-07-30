@@ -1,0 +1,309 @@
+﻿JDK：Java Development Kit 
+JRE：Java Runtime Environment
+
+一个文件中可有多个个main方法
+一个文件可以有多个public 类，如（内部类）
+一个类只能有一个main方法，可以不是public(不能运行)
+
+默认RMI采用的是tcp/ip通信协议
+
+JDK 其实包含了 JRE
+基本类型：比较的是值是否相同；
+引用类型：比较的是引用是否相同；
+equals 本质上就是 ==，只不过 String 和 Integer 等重写了 equals 方法，把它变成了值比较。看下面的代码就明白了。
+String 重写了 Object 的 equals 方法，把引用比较改成了值比较
+String、Integer 等把它变成了值比较，所以一般情况下 equals 比较的是值是否相等。
+两个对象的 hashCode() 相同，equals() 不一定 true
+在散列表中，hashCode() 相等即两个键值对的哈希值相等，然而哈希值相等，并不一定能得出键值对相等。
+final 修饰类不能被继承，方法不能被重写，变量叫常量，常量必须初始化，初始化之后值就不能被修改
+String 不属于基础类型，基础类型有 8 种：byte、boolean、char、short、int、float、long、double，而 String 属于对象。
+String：生成新的 String 对象
+StringBuffer 和 StringBuilder 最大的区别在于，StringBuffer 是线程安全的，而 StringBuilder 是非线程安全的，但 StringBuilder 的性能却高于 StringBuffer，所以在单线程环境下推荐使用 StringBuilder，多线程环境下推荐使用 StringBuffer。
+String string = "k";//分配到常量池与 ==》String string2 = new String("k");//分到堆内存中	
+字符串反转reverse() 方法
+indexOf()：返回指定字符的索引。
+charAt()：返回指定索引处的字符。
+replace()：字符串替换。
+trim()：去除字符串两端空白。
+split()：分割字符串，返回一个分割后的字符串数组。
+getBytes()：返回字符串的 byte 类型数组。
+length()：返回字符串长度。
+toLowerCase()：将字符串转成小写字母。
+toUpperCase()：将字符串转成大写字符。
+substring()：截取字符串。
+equals()：字符串比较。
+
+抽象类不一定非要有抽象方法。
+普通类不能包含抽象方法，抽象类可以包含抽象方法。
+抽象类不能直接实例化，普通类可以直接实例化。
+抽象类不能使用 final 修饰
+抽象类：extends,	抽象类可以有 main
+
+接口：implements    接口不能有 main 方法。
+构造函数：抽象类可以有构造函数；
+
+io流：功能分为输入，输出流
+	类型：字节流，字符流
+BIO：Block IO 同步阻塞式 IO
+NIO：New IO 同步非阻塞 IO
+AIO：Asynchronous IO 是 NIO 的升级
+ Files的常用方法：exsits(),createFile().createDirectory(),delete(),copy(),move(),size(), read(), write()
+Java 容器:
+List、Set、Map 的区别
+	Map:接口
+	      	hashMap：hash算法，无序，允许key 和 value 为 null
+ 	      	hashTable：Hashtable          不允许key 和 value 为 null	
+	    	LinkHashMap,
+	     	TreeMap,：有序（二叉树这排序）
+	    	ConcurrentHashMap：线程安全
+	Collection:接口
+		list:
+		    Arraylist:动态数组结构，有序重复，频繁读取使用
+		    LinkList:双向链表结构 ,频繁插入删除。
+			数组转 List：使用 Arrays. asList(array) 进行转换。
+			List 转数组：使用 List 自带的 toArray() 方法。
+			
+		set:
+		     hashSet:无序不可重复，底层实现HashMap
+		     TreeSet:有序（二叉树这排序）不可重复
+Collections:工具类：排序，查找。。。。
+
+
+Vector ：线程安全，扩容增加1倍
+list:线程不安全，扩容增加50%
+
+ArrayList 在性能方面要优于 Vector。
+ArrayList缺点：在中间插入新项和对以有项删除性能低。优点：在获取get和修改set效率高。
+
+Vector、Hashtable、Stack 都是线程安全的
+
+Iterator 接口提供遍历任何 Collection 的接口
+Iterator 的特点是更加安全，因为它可以确保，在当前遍历的集合元素被更改的时候，就会抛出 ConcurrentModificationException 异常。
+Iterator 可以遍历 Set 和 List 集合，而 ListIterator 只能遍历 List。
+ListIterator 从 Iterator 接口继承
+怎么确保一个集合不能被修改？Collections. unmodifiableCollection(Collection c) 这样改变集合的任何操作都会抛出 Java. lang. UnsupportedOperationException 异常。
+ollection<String> clist = Collections. unmodifiableCollection(list);
+
+多线程：
+并行：多个任务在同一个 CPU 核上	         并行 = 两个队列和两台咖啡机。	
+并发：多个处理器或多核处理器同时处理多个任务。并发 = 两个队列和一台咖啡机。
+守护线程是什么？
+守护线程是运行在后台的一种特殊进程，它独立于控制终端并且周期性地执行某种任务或等待处理某些发生的事件。
+Java 中垃圾回收线程就是特殊的守护线程。
+
+创建线程有三种方式：
+		继承 Thread 重新 run 方法；
+		  实现 Runnable 接口；
+		  实现 Callable 接口。
+runnable 没有返回值，callable 可以拿到有返回值
+类的不同：sleep() 来自 Thread，wait() 来自 Object。
+释放锁：sleep() 不释放锁；wait() 释放锁。
+用法不同：sleep() 时间到会自动恢复；wait() 可以使用 notify()/notifyAll()直接唤醒。
+start() 方法用于启动线程，run() 方法用于执行线程的运行时代码。run() 可以重复调用，而 start() 只能调用一次。
+ThreadPoolExecutor()：是最原始的线程池创建，上面1-3创建方式都是对ThreadPoolExecutor的封装。
+在 Java 程序中怎么保证多线程的运行安全？
+方法一：使用安全类，比如 Java. util. concurrent 下的类。
+方法二：使用自动锁 synchronized。
+方法三：使用手动锁 Lock。
+Lock lock = new ReentrantLock();
+lock. lock();
+try {
+    System. out. println("获得锁");
+} catch (Exception e) {
+    // TODO: handle exception
+} finally {
+    System. out. println("释放锁");
+    lock. unlock();
+}
+
+
+ 什么是死锁？
+当线程 A 持有独占锁a，并尝试去获取独占锁 b 的同时，线程 B 持有独占锁 b，并尝试获取独占锁 a 的情况下，就会发生 AB 两个线程由于互相持有对方需要的锁，而发生的阻塞现象，我们称为死锁。
+
+51. ThreadLocal 是什么？有哪些使用场景？
+ThreadLocal 为每个使用该变量的线程提供独立的变量副本，所以每一个线程都可以独立地改变自己的副本，而不会影响其它线程所对应的副本。
+ThreadLocal 的经典使用场景是数据库连接和 session 管理等。
+
+volatile 是变量修饰符；synchronized 是修饰类、方法、代码段。
+
+ synchronized 和 Lock 有什么区别？
+synchronized 可以给类、方法、代码块加锁；而 lock 只能给代码块加锁。
+
+反射是在运行状态中，对于任意一个类，都能够知道这个类的所有属性和方法；对于任意一个对象，都能够调用它的任意一个方法和属性；这种动态获取的信息以及动态调用对象的方法的功能称为 Java 语言的反射机制。
+
+Java 序列化是为了保存各种对象在内存中的状态，并且可以把保存的对象状态再读出来。
+
+动态代理的应用有 spring aop、hibernate 数据查询、测试框架的后端 mock、rpc，Java注解对象获取等。
+
+JDK 原生动态代理和 cglib 动态代理。JDK 原生动态代理是基于接口实现的，而 cglib 是基于继承当前类的子类实现的。
+对象的克隆：当需要一个新的对象来保存当前对象的“状态”就靠克隆方法了。
+
+JSP 和 servlet 有什么区别？
+JSP 是 servlet 技术的扩展，本质上就是 servlet 的简易方式。servlet 和 JSP 最主要的不同点在于，
+servlet 的应用逻辑是在 Java 文件中，并且完全从表示层中的 html 里分离开来，而 JSP 的情况是
+ Java 和 html 可以组合成一个扩展名为 JSP 的文件。JSP 侧重于视图，servlet 主要用于控制逻辑。
+
+session 存储在服务器端；cookie 存储在浏览器端。
+cookie 安全性一般，在浏览器存储，可以被伪造和修改
+cookie 有容量限制，每个站点下的 cookie 也有个数限制。
+session 可以存储在 Redis 中、数据库中、应用程序中；而 cookie 只能存储在浏览器中。
+
+如何避免 SQL 注入？
+使用预处理 PreparedStatement。
+使用正则表达式过滤掉字符中的特殊字符。
+
+
+HashMap:存放元素的原理： put(key,value),如果key是自定义类型，就必须实现equals()和hashCode()方法，
+首先通过key的hashCode计算出key的hash值，以用hash&table,length-1算出对象应该放在table数组的索引。
+通过索引获取相应的值，如果为空就就new一个Node放入当前索引处，如果有元素就将该元素与要添加的
+元素的hash值&&key比较||key.equals相等就覆盖原有的value值，
+
+map初始容量（默认16）和负载因子（默认0.75），一般不用显示指定。
+
+HashSet类里有一个HashMap，在创建hashSet对象的时候就创建了一个hashMap对象和一个静态final的Object对象。
+，hashset元素不可重复利用的就是HashMap的key不可重复的原理，每次向hashSet存放元素就是将对象当作hashMap的key
+value就是Object常量。
+
+
+
+
+
+/**
+ * @author 小岳  2019/7/7
+ *		 线程的三种实现方式
+ * 		1.第一种继承Thrad类创建线程
+ * 		2.第二种实现Runnable接口创建线程。
+ * 		3.第三种实现Callable接口和Futrue接口创建线程,call方法有返回值
+ *			线程生命周期：new,Ready,Running,block
+ *			线程阻塞和运行，sleep,wait,试图获取线程同步器监视器，suspend挂起。io阻塞
+ *			线程的死亡：isAlive();true线程处于就绪（Ready）运行(Running)，阻塞(Block)，false:死亡(Dead)和新建状态（new）
+ * 			线程的控制：join（），一个线程调用此方法时，此线程将优先执行，结束后其他线程才继续执行。
+ * 			后台线程：setDaemin()将线程设置成后台线程，所有的前台线程都死亡，后台线程会自动死亡。
+ * 			线程的睡眠 ：sleep()
+ *
+ */
+
+
+/**
+ * @author 小岳  2019/7/7
+ * 
+ * 			线程的休眠：sleep：线程休眠处于暂停状态，阻塞线程，不会获得执行机会，将会执行其他处于就绪状态的线程。
+ * 					  yield： 线程暂停，线程不会阻塞，时间很短，将会执行优先级与此线程相同或比他高的并处于就绪状态的线程。
+ * 
+ * 			线程的优先级：setPriority(1至10),，有三个默认的优先级常量1，5，10，优先级高的执行机会多些。
+ * 
+ * 			线程的同步：多个线程在访问同一资源时候“偶然”出现的线程安全问题，（数据不准确），
+ * 					  java提供了同步监视器解决线程安全问题。
+ * 					  同步代码块：synchronized(obj){	}//此时当一条线程获得次同步监视器对象锁，其他线程将无法进入此代码块。
+ * 					  同步方法：public synchronized void draw(double drawBalance) 多条线程调用此方法时，只能有一条线程获得对Acount1对象的锁定。
+ *			释放同步监视器的锁定：break,return,wait(),Exeception,error,
+ *							不会释放：sleep(),yield(),suspend(),resume().
+ *			同步锁(Lock):private final ReentrantLock lock = new ReentrantLock();//可重入锁
+ * 							lock.lock();//锁定同步监视
+ * 								执行操作。。。。
+ * 							lock.unlock();//释放同步监视器锁定
+ 
+ *
+ */
+
+/**
+ * @author 小岳 2019/7/7
+ * 		死锁：多条线程互相等待对方释放同步监视器锁时就会发生死锁。
+ * 			A线程获得了a对象同步监视器进行锁定，此时出现阻塞状态，B线程获得b对象同步监视器进行锁定。A线程恢复想要获得b对象同步监视器锁，
+ * 				结果B线程已经在A线程处于阻塞状态时将b对象锁定了。所以A线程此时就将处于等待状态，等待B线程释放b，同理，B线程也是执行相同操作。
+ * 					A线程要获得B线程已经锁定的资源，B对象要获得A线程已经锁定的资源。A，B两线程都处于等待状态。于是就造成了死锁。	
+ *			解决死锁：避免一条线程对多个同步监视器进行锁定。
+ * 				应保证多条线程以相同的顺序请求加锁。
+ * 				使用定是锁，Lock.tryLock(  ,  ),超时将自动解开死锁。
+ * 				死锁检测，依靠算法实现，针对以上方式不能实现按序加锁和定时加锁的场景。			
+ * 	
+ *
+ */
+volitile:是关键词，修饰变量，互斥，可见性，被volatile修饰的变量，当有一条线程修改了变量的值，该变量会及时同步到主内存去，以供其他线程访问到最新的数据。不会造成线程阻塞。
+synchronied：修饰符，关键字，修饰方法：同步方法（当前对象就是同步监视器）。同步代码块（同步监视器）。同意时刻只能有一条线程执行该方法或代码中的语句，其他线程要执行此方法或代码块将被阻塞。不需要手动释放锁。
+				同步执行过程：加锁——>修改——>释放锁
+被synchronied修饰的同步方法或代码块如果处于阻塞状态，是无法被中断的，只能一直等待。
+
+Lock:同步锁
+	ReetrantLock:可重入锁，可嵌套调用。显示加锁.lock(),，显示释放锁.unLock()一般放在fianlly{}块中,     tryLock（）:获取锁	
+	当使用同步锁，线程在阻塞状态是可以被中断的。lock.lockInterruptibly();可中断锁，终端被阻塞的线程。
+	当在一个同步方法中调用了另一个同步方法，那么就不用重复获取锁。
+死锁：	
+	tryLock（设置锁定时长）：超过设定的时间自动释放锁。
+	指定不同加锁的顺序
+linux启动tomcat:-
+	./startup.sh start & tailf /usr/local/tomcat8/apache-tomcat-8.5.40/logs/catalina.out& tailf /usr/local/tomcat/logs/catalina.out
+
+java5十大新特性:
+		枚举，泛型，注解，静态导入，自动装箱拆箱，可变参数，Arrays工具类，格式化输出，foreacher()增强for循环，线程框架。
+java6新特性：
+		集合增强，增强双向集合操作，数组操作方法，Arrays.copyOf,Arrays.copyOfRange,脚本引擎，JDBC4.0规范。
+java7新特性：
+		try-with-resources自动释放资源，cath同时捕获多个异常。swith支持String,G1垃圾收集器，
+java8新特性：
+		Lambda表达式，接口提供了默认方法和静态方法，重复注解，类型推断，Streams简化集合操作，Date/Time API
+java9新特性：
+		java平台级模块系统，linking,shell,交互式javaREPL，改进javadoc
+
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

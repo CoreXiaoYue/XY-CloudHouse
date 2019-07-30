@@ -1,0 +1,124 @@
+spring：简化开发
+	ioc:实际是一个Map容器。注册，管理，实例化
+	  DI：dependeny依赖注入
+	AOP
+七大模块：
+	core:核心，ioc容器，依赖注入。
+	Context:spring上下文容器，BeanFactory功能增强的一个子接口。
+	web:b/s应用
+	mvc:三层架构
+	dao:数据库访问
+	orm:对象关系映射。	spring+hibernate,spring+mybaties
+	aop:面向切面变成。
+xml方式开发：
+	getBeanNamesForType()容器中某类型类配置定义的id
+
+annotation注解开发：
+	String[] names = ioc.getBeanDefinitionNames();//所有bean的组件
+	@Configuration注解修饰配置类，
+
+
+向容器中添加Bean的几种方式
+	@Bean修饰方法上,方法名为id,类型为返回值类型。在容器中注册类，
+	@Bean("abc")，自己指定bean的id名，解决重名问题
+
+      1.@Bean		
+	public Person person(){	//方法名为id,类型为返回值类型。
+	}
+	AnnotationConfigApplication ioc = new AnnotationConfigApplication(config.class):加载配置类。
+
+	@ConpomentScan(value=包名):组件扫描
+	basePackages:包扫描
+	扫描指定包，includeFilters包含，excludeFilters=排除
+     2.@ComponentScan(basePackages = { "com.xiaoyue" }, includeFilters = {
+
+		@Filter(type = FilterType.ANNOTATION, classes = { Controller.class,Service.class}) }, excludeFilters = {
+					
+				@Filter(type = FilterType.ANNOTATION, classes = { Repository.class }) }
+					, useDefaultFilters = false)
+
+	@Filter(type = FilterType。ASSIGNABLE_TYPE,classes = { UserController.class })//指定类（自定义的类）
+
+	自定义Filter:实现TypeFilter
+	@Scope("singleton"):作用域。默认是单实例（singleton），多实例（prototype）
+	@Lazy:懒加载，默认true,getBean()的时候才实例化
+     3.@Conditional（Window.class）:条件注册bean，在import()标签中使用
+
+     4.@Import(value = Person.class)
+		//导入单个bean,,存入IOC 容器中的key为类的全类名（com.xiaoyue.bean.Person）
+		从容器获取bean为ioc.getBean("com.xiaoyue.bean.Person")
+
+     5.@Import：手动添加bean
+	实现：MyImportSelect为实现ImportSelect接口,
+	    	public String[] selectImports(AnnotationMetadata importingClassMetadata) {
+			return new String[] {"com.xiaoyue.bean.Person"//返回String数组，元素为bean的全类名
+		};	
+		在配置类上使用//@Import(value = MyInportSelect.class)
+		在容器中获取：Object bean2 = ioc.getBean("com.xiaoyue.bean.Person");
+     6.实现接口：ImportBeanDefinitionRegistrar添加Bean，在import()标签中使用
+	重写	public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
+
+			boolean containsBeanDefinition1 = registry.containsBeanDefinition("com.xiaoyue.bean.Dog");//容器是否有定以Dog类
+			boolean containsBeanDefinition2 = registry.containsBeanDefinition("com.xiaoyue.bean.Person");//容器是否有定以Dog类
+		
+			if(containsBeanDefinition1&&containsBeanDefinition2) {//以上条件都为true
+				RootBeanDefinition root = new RootBeanDefinition(Cat.class);//将要添加到容器中的Bean封装到RootBeanDefinition 类中，
+				registry.registerBeanDefinition("cat",root);//然后在容器中注册
+			}
+		}
+     7.实现接口FactoryBean添加bean
+		实现该接口，重写getObject()，Class<?> getObjectType()，issingleton(),	将bean注册到容器中
+	在import()标签中使用
+	getBean()的调用栈    1.AnnotationConfigApplicationContext(AbstractApplicationContext).getBean(Class<T>) 
+
+			2.DefaultListableBeanFactory.getBean(Class<T>)
+
+			3.DefaultListableBeanFactory.getBean(Class<T>, Object...)
+
+			4.DefaultListableBeanFactory.resolveBean(ResolvableType, Object[], boolean)
+
+			5.DefaultListableBeanFactory.resolveNamedBean(ResolvableType, Object[], boolean)
+
+			6.DefaultListableBeanFactory(AbstractBeanFactory).getBean(String, Class<T>, Object...) line: 224
+	
+			7.DefaultListableBeanFactory(AbstractBeanFactory).doGetBean(String, Class<T>, Object[], boolean) line: 257	
+
+			8.DefaultListableBeanFactory(AbstractAutowireCapableBeanFactory).getObjectForBeanInstance(Object, String, String, RootBeanDefinition) line: 1216
+	
+			9.DefaultListableBeanFactory(AbstractBeanFactory).getObjectForBeanInstance(Object, String, String, RootBeanDefinition) line: 1674	
+
+			10.DefaultListableBeanFactory(FactoryBeanRegistrySupport).getObjectFromFactoryBean(FactoryBean<?>, String, boolean) line: 101
+	
+			11.DefaultListableBeanFactory(FactoryBeanRegistrySupport).doGetObjectFromFactoryBean(FactoryBean<?>, String) line: 171
+	
+			12.到达实现FactoryBean接口的自定义的MyFactoryBean的getObject()。
+
+	
+	bean的生命周期：创建，初始化，与销毁
+		1.@Bean(initMethod="init",destoryMethod="destroy")
+		容器创建过程中，调用bean的初始化方法，关闭容器后，调用销毁方法。容器调用close()方法关闭容器，清空容器中的Map,调用clear(),
+		所有单实例bean被创建，多实例bean在getBean()获取的时候才创建。
+
+		2.xml方式，init-method= “”  destroyMethod=“”
+		3.实现initializingBean接口重写afterProprttiesSet()bean初始化完成之后调用
+		  实现DeposbleBean接口重写destroy()bean销毁方法之后调用。
+		4.JSR250规范
+			注解@PostConstract,初始化
+			       @PreDestroy，销毁
+	BeanPostProcesser后置处理器在bean初始化之前调用  1.bean的构造器
+						2.调用后置处理器的postProcesserBeforeInitalization
+						3.调用后置处理器的preProcesserAfterInitalization
+						4.销毁方法
+
+       8.@Component注解声明该类，并配置包扫描，该类将自动被spring加载到容器
+
+
+
+			
+
+
+
+
+
+
+	}
