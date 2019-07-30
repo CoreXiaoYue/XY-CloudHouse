@@ -6,7 +6,7 @@ JRE：Java Runtime Environment
 JDK 其实包含了 JRE
 基本类型：比较的是值是否相同；
 引用类型：比较的是引用是否相同；
-equals 本质上就是 ==，只不过 String 和 Integer 等重写了 equals 方法，把它变成了值比较。看下面的代码就明白了。
+equals 本质上就是 ==，只不过 String 和 Integer 等重写了 equals 方法，把它变成了值比较。看下代源码就明白了。
 String 重写了 Object 的 equals 方法，把引用比较改成了值比较
 String、Integer 等把它变成了值比较，所以一般情况下 equals 比较的是值是否相等。
 两个对象的 hashCode() 相同，equals() 不一定 true
