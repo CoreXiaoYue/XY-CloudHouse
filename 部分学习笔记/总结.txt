@@ -1,10 +1,6 @@
 ﻿JDK：Java Development Kit 
 JRE：Java Runtime Environment
 
-一个文件中可有多个个main方法
-一个文件可以有多个public 类，如（内部类）
-一个类只能有一个main方法，可以不是public(不能运行)
-
 默认RMI采用的是tcp/ip通信协议
 
 JDK 其实包含了 JRE
